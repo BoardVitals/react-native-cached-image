@@ -8,8 +8,8 @@
     "dev": "yarn && rm -rf ./node_modules/react-native-cached-image; sane 'rsync -av --include='utils/' --include='utils/*.js' --include='*.js' --include='package.json' --exclude='*' ../ ./node_modules/react-native-cached-image' ../ --glob '**/*.js' --glob 'package.json'"
   },
   "dependencies": {
-    "react": "16.0.0-alpha.12",
-    "react-native": "^0.48.3",
+    "react": "16.9.0",
+    "react-native": "0.61.1",
     "react-native-cached-image": "../"
   },
   "devDependencies": {
@@ -19,7 +19,5 @@
     "react-test-renderer": "^15.6.1",
     "sane": "^2.0.0"
   },
-  "jest": {
-    "preset": "react-native"
-  }
+  "jest": {}
 }
