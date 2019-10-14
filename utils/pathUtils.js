@@ -39,6 +39,7 @@ function generateCacheKey(url, useQueryParamsInCacheKey = true) {
     const parts = fileName.split('.');
     const fileType = parts.length > 1 ? _.toLower(parts.pop()) : '';
     const type = defaultImageTypes.includes(fileType) ? fileType : 'jpg';
+    console.log({type});
 
     const cacheable = filePath + fileName + type + getQueryForCacheKey(parsedUrl, useQueryParamsInCacheKey);
     return SHA1(cacheable) + '.' + type;

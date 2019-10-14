@@ -43,6 +43,7 @@ class ImageCacheProvider extends React.Component {
         this.getImageCacheManager = this.getImageCacheManager.bind(this);
         this.preloadImages = this.preloadImages.bind(this);
 
+        console.log('david pflasterer was here')
     }
 
     getChildContext() {
