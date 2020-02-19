@@ -137,24 +137,32 @@ class CachedImage extends React.Component {
         });
     }
 
-    processSource(source) {
+    async processSource(source) {
         const url = _.get(source, ['uri'], null);
         const options = this.getImageCacheManagerOptions();
         const imageCacheManager = this.getImageCacheManager();
-
-        imageCacheManager.downloadAndCacheUrl(url, options)
-            .then(cachedImagePath => {
-                this.safeSetState({
-                    cachedImagePath
+        const isCachedUrl = await imageCacheManager.isCachedUrl(url)
+        if (isCachedUrl) {
+            imageCacheManager.downloadAndCacheUrl(url, options)
+                .then(cachedImagePath => {
+                    this.safeSetState({
+                        cachedImagePath
+                    });
+                })
+                .catch(err => {
+                    // console.warn(err);
+                    this.safeSetState({
+                        cachedImagePath: null,
+                        isCacheable: false
+                    });
                 });
-            })
-            .catch(err => {
-                // console.warn(err);
-                this.safeSetState({
-                    cachedImagePath: null,
-                    isCacheable: false
-                });
+        }
+        else {
+            this.safeSetState({
+                cachedImagePath: null,
+                isCacheable: false
             });
+        }
     }
 
     render() {
