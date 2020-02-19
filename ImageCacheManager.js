@@ -138,22 +138,36 @@ module.exports = (defaultOptions = {}, urlCache = MemoryCache, fs = fsUtils, pat
         },
 
         /**
-         * check for cache entry and file for a given url
+         * get cached file path for a given url
          * @param url
          * @param options
-         * @returns {boolean}
+         * @returns {string}
          */
-        async isCachedUrl(url, options = {}) {
+        async cachedUrlFilePath(url, options = {}) {
             if (!isCacheable(url)) {
                 console.log('Url is not cacheable');
                 return false;
             }
             _.defaults(options, defaultOptions);
             const cacheableUrl = path.getCacheableUrl(url, options.useQueryParamsInCacheKey);
+
+            if (!await urlCache.get(cacheableUrl)) return false;
+
             const filePath = path.getImageFilePath(cacheableUrl, options.cacheLocation);
 
-            // check if file is cached and exists
-            return !!await urlCache.get(cacheableUrl) && !!await fs.exists(filePath);
+            if (!await fs.exists(filePath)) return false;
+
+            return filePath;
+        },
+
+        /**
+         * check for cache entry and file for a given url
+         * @param url
+         * @param options
+         * @returns {boolean}
+         */
+        async isCachedUrl(url, options = {}) {
+            return !!await this.cachedUrlFilePath(url, options);
         },
     };
 };
