@@ -151,8 +151,6 @@ module.exports = (defaultOptions = {}, urlCache = MemoryCache, fs = fsUtils, pat
             _.defaults(options, defaultOptions);
             const cacheableUrl = path.getCacheableUrl(url, options.useQueryParamsInCacheKey);
 
-            if (!await urlCache.get(cacheableUrl)) return false;
-
             const filePath = path.getImageFilePath(cacheableUrl, options.cacheLocation);
 
             if (!await fs.exists(filePath)) return false;
